@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import api from '../services/api'
+import { Link } from 'react-router-dom'
 
 export default function Read(){
     const [ data, setData ] = useState([])
@@ -15,14 +16,24 @@ export default function Read(){
         loadDisciplinas()
     },[])
 
+    function handleDeleteDisciplinas(e){
+        api.delete(`/disciplina/`+e.target.value).then(
+            alert("Recarregue a página")
+        ).catch((error)=>{
+            alert(error)
+        })
+    }
+
     return(
         <div className="page">
-            <table class="table table-dark table-bordered">
+            <table className="table table-bordered">
                 <thead>
                     <tr>
                         <th scope="col">Disciplina</th>
                         <th scope="col">Curso</th>
                         <th scope="col">Capacidade</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -35,12 +46,18 @@ export default function Read(){
                                     <td>{info.curso}</td>
 
                                     <td>{info.capacidade}</td>
+
+                                    <td><button className="buttonDelete" value={info.id} onClick={handleDeleteDisciplinas}>Apagar</button></td>
+                                    <td><Link className="buttonEdit" to={()=>{
+                                        return("/edit/"+info.id)
+                                    }}>Editar</Link></td>
                                 </tr>
                             )
                         })
                     }
                 </tbody>
             </table>
+            <Link className="btn btn-primary" to="/">To Home</Link>
         </div>
     )
 } 

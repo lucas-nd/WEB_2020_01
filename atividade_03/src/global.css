@@ -1,9 +1,43 @@
-.page{
-    margin: 5px;
-
+html{
     display: flex;
     justify-content: center;
     align-items: center;
+}
 
-    height: 90vh;
+.page{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    height: 100%;
+    width: 100%;
+
+    margin-top: 100px;
+}
+
+.buttonDelete{
+    background: none;
+    border: none;
+    color: blue;
+}
+
+.buttonDelete:hover{
+    color: black;
+}
+
+.buttonEdit{
+    color: blue;
+    text-decoration: none;
+}
+
+.buttonEdit:hover{
+    text-decoration: none;
+    color: black;
+}
+
+.buttonsCreate, .buttonsEdit{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }

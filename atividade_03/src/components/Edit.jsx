@@ -1,26 +1,30 @@
-import React, { useState } from 'react'
+import React, {useState} from 'react'
 import api from '../services/api'
-import { Link } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 
-export default function Create() {
+export default function Edit(){
     const [ nome, setNome ] = useState('')
     const [ curso, setCurso ] = useState('')
     const [ capacidade, setCapacidade ] = useState('')
 
-    function handleCreate(e){
+    let { id } = useParams()
+
+    function handleEditDisciplina(e){
         e.preventDefault()
 
-        api.post('/disciplina',{
+        api.put(`/disciplina/`+id, {
             nome,
             curso,
             capacidade
-        }
-        )
+        })
     }
 
-    return (
+    return(
         <div className="page">
-            <form className="form" onSubmit={handleCreate}>
+            <div class="alert alert-primary" role="alert">
+                Reescreva todas as informações da disciplina
+            </div>
+            <form className="form" onSubmit={handleEditDisciplina}>
                 <div className="form-group">    
                     <label>Disciplina</label>
                     <input
@@ -54,8 +58,8 @@ export default function Create() {
                         className="form-control"
                     />  
                 </div>
-                <div className="buttonsCreate">
-                    <button type="submit" className="btn btn-primary">Cadastrar</button>
+                <div className="buttonsEdit">
+                    <button type="submit" className="btn btn-primary">Editar</button>
                     <Link className="btn btn-primary" to="/">To Home</Link>
                 </div>
             </form>

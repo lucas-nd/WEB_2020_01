@@ -2,9 +2,9 @@
   "disciplina": [
     {
       "nome": "Matemática Discreta",
-      "curso": "Todos",
-      "capacidade": "45",
-      "id": 1
+      "curso": "Engenharia da Computação",
+      "capacidade": "30",
+      "id": 2
     }
   ]
 }
