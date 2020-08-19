@@ -1,11 +1,13 @@
 import React, {useState} from 'react'
 import api from '../services/api'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useHistory } from 'react-router-dom'
 
 export default function Edit(){
     const [ nome, setNome ] = useState('')
     const [ curso, setCurso ] = useState('')
     const [ capacidade, setCapacidade ] = useState('')
+
+    const history = useHistory()
 
     let { id } = useParams()
 
@@ -16,7 +18,11 @@ export default function Edit(){
             nome,
             curso,
             capacidade
-        })
+        }).then(
+            alert("Deu tudo certo!")
+        )
+
+        history.push('/')
     }
 
     return(

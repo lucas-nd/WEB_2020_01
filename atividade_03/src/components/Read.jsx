@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import api from '../services/api'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 
 export default function Read(){
     const [ data, setData ] = useState([])
+
+    const history = useHistory()
 
     async function loadDisciplinas(){
         const response = await api.get('/disciplina')
@@ -18,7 +20,10 @@ export default function Read(){
 
     function handleDeleteDisciplinas(e){
         api.delete(`/disciplina/`+e.target.value).then(
-            alert("Recarregue a página")
+            ()=>{
+                alert("Deu tudo certo")
+                history.push('/')
+            }
         ).catch((error)=>{
             alert(error)
         })

@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 import api from '../services/api'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 
 export default function Create() {
     const [ nome, setNome ] = useState('')
     const [ curso, setCurso ] = useState('')
     const [ capacidade, setCapacidade ] = useState('')
+
+    const history = useHistory()
 
     function handleCreate(e){
         e.preventDefault()
@@ -15,7 +17,11 @@ export default function Create() {
             curso,
             capacidade
         }
+        ).then(
+            alert("Deu tudo certo!")
         )
+
+        history.push('/')
     }
 
     return (

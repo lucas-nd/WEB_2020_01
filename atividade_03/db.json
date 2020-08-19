@@ -5,6 +5,30 @@
       "curso": "Engenharia da Computação",
       "capacidade": "30",
       "id": 2
+    },
+    {
+      "nome": "Desenvolvimento web",
+      "curso": "Engenharia de software",
+      "capacidade": "15",
+      "id": 3
+    },
+    {
+      "nome": "PAA",
+      "curso": "Engenharia de software",
+      "capacidade": "30",
+      "id": 7
+    },
+    {
+      "nome": "Requisitos de software",
+      "curso": "Engenharia de software",
+      "capacidade": "45",
+      "id": 8
+    },
+    {
+      "nome": "Processos de software",
+      "curso": "Engenharia de software",
+      "capacidade": "30",
+      "id": 9
     }
   ]
 }
