@@ -14,7 +14,7 @@ export default function Edit(){
     function handleEditDisciplina(e){
         e.preventDefault()
 
-        api.put(`/disciplina/`+id, {
+        api.put(`/disciplinas/update/${id}`, {
             nome,
             curso,
             capacidade
@@ -27,7 +27,7 @@ export default function Edit(){
 
     return(
         <div className="page">
-            <div class="alert alert-primary" role="alert">
+            <div className="alert alert-primary" role="alert">
                 Reescreva todas as informações da disciplina
             </div>
             <form className="form" onSubmit={handleEditDisciplina}>

@@ -8,7 +8,7 @@ export default function Read(){
     const history = useHistory()
 
     async function loadDisciplinas(){
-        const response = await api.get('/disciplina')
+        const response = await api.get('/disciplinas/list')
         setData(response.data)
 
         console.log(response.data)
@@ -19,7 +19,8 @@ export default function Read(){
     },[])
 
     function handleDeleteDisciplinas(e){
-        api.delete(`/disciplina/`+e.target.value).then(
+        console.log(`/disciplinas/delete/${e.target.value}`)
+        api.delete(`/disciplinas/delete/${e.target.value}`).then(
             ()=>{
                 alert("Deu tudo certo")
                 history.push('/')
@@ -45,16 +46,16 @@ export default function Read(){
                     {
                         data.map((info) => {
                             return(
-                                <tr key={info.id}>
+                                <tr key={info._id}>
                                     <td>{info.nome}</td>
 
                                     <td>{info.curso}</td>
 
                                     <td>{info.capacidade}</td>
 
-                                    <td><button className="buttonDelete" value={info.id} onClick={handleDeleteDisciplinas}>Apagar</button></td>
+                                    <td><button className="buttonDelete" value={info._id} onClick={handleDeleteDisciplinas}>Apagar</button></td>
                                     <td><Link className="buttonEdit" to={()=>{
-                                        return("/edit/"+info.id)
+                                        return("/edit/"+info._id)
                                     }}>Editar</Link></td>
                                 </tr>
                             )
