@@ -12,7 +12,7 @@ export default function Create() {
     function handleCreate(e){
         e.preventDefault()
 
-        api.post('/disciplinas/register',{
+        api.post('/disciplina/register',{
             nome,
             curso,
             capacidade

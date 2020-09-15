@@ -1,0 +1,49 @@
+use atividade07
+
+var user = {nome: "Pedro", email: "pedro@pedro.com", senha: "pedro", idade: 10};
+db.users.insert(user);
+
+var user = {nome: "Alice", email: "alice@alice.com", senha: "alice", idade: 13};
+db.users.insert(user);
+
+var user = {nome: "Maria", email: "maria@maria.com", senha: "maria", idade: 15};
+db.users.insert(user);
+
+var user = {nome: "Joao", email: "joao@joao.com", senha: "joao", idade: 18};
+db.users.insert(user);
+
+#Questão 01
+var questao01 = {idade: {"$gt": 25}};
+db.users.find(questao01);
+
+#Questão 02
+var questao02 = {nome: {"$eq": "Joao"}};
+db.users.find(questao02);
+
+#Questão 03
+var questao03 = {"$and": [ {nome: "Joao"}, {idade: 25}]};
+db.users.find(questao03);
+
+#Questão 04
+var questao04 = {"$and": [ {nome: {"$ne": "Joao"}}, {idade: {"$gt": 26}}]};
+db.users.find(questao04);
+
+#Questão 05
+var questao05 = {"$or": [ {nome: {"$ne": "Joao"}}, {"$and": [{idade: {"$gt": 25}},{nome: {"$eq": "Pedro"}}]}]};
+db.users.find(questao05);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

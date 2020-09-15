@@ -14,7 +14,7 @@ export default function Edit(){
     function handleEditDisciplina(e){
         e.preventDefault()
 
-        api.put(`/disciplinas/update/${id}`, {
+        api.put(`/disciplina/update/${id}`, {
             nome,
             curso,
             capacidade

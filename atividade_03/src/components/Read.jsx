@@ -8,7 +8,7 @@ export default function Read(){
     const history = useHistory()
 
     async function loadDisciplinas(){
-        const response = await api.get('/disciplinas/list')
+        const response = await api.get('/disciplina/list')
         setData(response.data)
 
         console.log(response.data)
@@ -19,8 +19,8 @@ export default function Read(){
     },[])
 
     function handleDeleteDisciplinas(e){
-        console.log(`/disciplinas/delete/${e.target.value}`)
-        api.delete(`/disciplinas/delete/${e.target.value}`).then(
+        console.log(`/disciplina/delete/${e.target.value}`)
+        api.delete(`/disciplina/delete/${e.target.value}`).then(
             ()=>{
                 alert("Deu tudo certo")
                 history.push('/')
