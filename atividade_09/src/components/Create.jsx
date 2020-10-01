@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import api from '../services/api'
 import { Link, useHistory } from 'react-router-dom'
 
 import FirebaseContext from '../utils/FirebaseContext'

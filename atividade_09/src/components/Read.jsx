@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import api from '../services/api'
 import { Link, useHistory } from 'react-router-dom'
 
 import FirebaseContext from '../utils/FirebaseContext'
@@ -37,6 +36,8 @@ function Read(props){
             },
             e.target.value
         )
+
+        history.push('/')
     }
 
     return(
