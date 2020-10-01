@@ -1,0 +1,25 @@
+.resultados{
+    width: 70%;
+    height: 300px;
+
+    margin-top: 20px;
+
+    display: flex;
+    justify-content: space-between;
+}
+
+.soma, .mult, .maior{
+    width: 300px;
+    height: 300px;
+    background-color: rgb(169, 150, 252);
+
+    border: none;
+    border-radius: 10px;
+
+    color: white;
+    font-size: 15px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

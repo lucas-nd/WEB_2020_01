@@ -1,0 +1,26 @@
+.tela{
+    margin-top: 50px;
+
+    width: 500px;
+    height: 25vh;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    background-color: none;
+}
+
+.inputs{
+    width: 200px;
+    height: 100%;
+
+    background-color: rgb(150, 165, 252);
+
+    border: none;
+    border-radius: 10px;
+
+    color: white;
+    font-size: 50px;
+}
