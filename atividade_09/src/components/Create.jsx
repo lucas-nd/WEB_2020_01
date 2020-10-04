@@ -4,13 +4,18 @@ import { Link, useHistory } from 'react-router-dom'
 import FirebaseService from '../services/FirebaseService'
 import firebase from '../utils/Firebase'
 
+import { connect } from 'react-redux'
 
-function Create() {
+import Header from './Header'
+
+function Create({ dados }) {
     const [ nome, setNome ] = useState('')
     const [ curso, setCurso ] = useState('')
     const [ capacidade, setCapacidade ] = useState('')
 
     const history = useHistory()
+
+    if(dados.logado === false) history.push('/login')
 
     function handleCreate(e){
         e.preventDefault()
@@ -32,6 +37,7 @@ function Create() {
 
     return (
         <div className="page">
+            <Header />
             <form className="form" onSubmit={handleCreate}>
                 <div className="form-group">    
                     <label>Disciplina</label>
@@ -75,4 +81,4 @@ function Create() {
     )
 }
 
-export default Create
+export default connect(state => ({ dados: state }))(Create)

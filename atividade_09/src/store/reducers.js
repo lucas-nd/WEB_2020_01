@@ -3,10 +3,7 @@ const initial = {
     user: null
 }
 
-function reducer(state = initial, action){
-    console.log(action)
-    console.log(state)
-    
+function reducer(state = initial, action){   
     if(action.type === "LOGAR"){
         console.log(state)
         console.log(action)

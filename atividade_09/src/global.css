@@ -41,3 +41,27 @@ html{
     flex-direction: row;
     justify-content: space-between;
 }
+
+.header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 0px;
+    margin-bottom: 50px;
+    padding: 0 50px 0 50px;
+    width: 100vw;
+}
+
+.header strong{
+    color: blue;
+}
+
+.header .deslogarButton{
+    background: none;
+    border: none;
+    color: red;
+}
+
+.table{
+    width: 50vw;
+}

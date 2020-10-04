@@ -4,10 +4,16 @@ import { Link, useHistory } from 'react-router-dom'
 import FirebaseService from '../services/FirebaseService'
 import firebase from '../utils/Firebase'
 
-function Read(){
+import { connect } from 'react-redux'
+
+import Header from './Header'
+
+function Read({ dados }){
     const [ data, setData ] = useState([])
 
     const history = useHistory()
+
+    if(dados.logado === false) history.push('/login')
 
     async function loadDisciplinas(){
         FirebaseService.list(firebase.firestore(),
@@ -36,6 +42,7 @@ function Read(){
 
     return(
         <div className="page">
+            <Header />
             <table className="table table-bordered">
                 <thead>
                     <tr>
@@ -72,4 +79,4 @@ function Read(){
     )
 } 
 
-export default Read
+export default connect(state => ({ dados: state }))(Read)

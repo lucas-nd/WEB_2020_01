@@ -4,12 +4,18 @@ import { useParams, Link, useHistory } from 'react-router-dom'
 import FirebaseService from '../services/FirebaseService'
 import firebase from '../utils/Firebase'
 
-function Edit(){
+import { connect } from 'react-redux'
+
+import Header from './Header'
+
+function Edit({ dados }){
     const [ nome, setNome ] = useState('')
     const [ curso, setCurso ] = useState('')
     const [ capacidade, setCapacidade ] = useState('')
 
     const history = useHistory()
+
+    if(dados.logado === false) history.push('/login')
 
     let { id } = useParams()
 
@@ -34,6 +40,7 @@ function Edit(){
 
     return(
         <div className="page">
+            <Header />
             <div className="alert alert-primary" role="alert">
                 Reescreva todas as informações da disciplina
             </div>
@@ -79,4 +86,4 @@ function Edit(){
         </div>
     )
 }
-export default Edit
+export default connect(state => ({ dados: state }))(Edit)

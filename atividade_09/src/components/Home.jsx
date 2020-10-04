@@ -1,10 +1,18 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 
-export default function Home(){
+import Header from './Header'
+
+import { connect } from 'react-redux'
+
+function Home( {dados } ){
+    const history = useHistory()
+    if(dados.logado === false) history.push('/login')
+
     return(
         <div className="page">
-            <h1>Atividade 09</h1>
+            <Header />
+            <h1>Atividade 09 e 11</h1>
 
             <ul className="nav nav-pills">
                 <li className="nav-item">
@@ -20,3 +28,5 @@ export default function Home(){
         </div>
     )
 }
+
+export default connect(state => ({ dados: state }))(Home)

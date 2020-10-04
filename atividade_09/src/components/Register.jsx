@@ -1,50 +1,51 @@
 import React, { useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 
-import { connect } from 'react-redux'
-
-import { logar } from '../store/actions'
-
 import firebase from '../utils/Firebase'
 
-function Login({ dados, dispatch }){
+function Register(){
     const [ email, setEmail ] = useState('')
     const [ senha, setSenha ] = useState('')
+    const [ cSenha, setCsenha ] = useState('')
     const history = useHistory()
 
-    function handleLogin(e){
+    function handleRegister(e){
         e.preventDefault()
 
-        firebase
+        if(cSenha !== senha){
+            alert("As senhas não correspondem!")
+        }else{
+            firebase
             .auth()
-            .signInWithEmailAndPassword(email, senha)
+            .createUserWithEmailAndPassword(email, senha)
             .then(
-                (data) => {
-                    if(data.user.emailVerified){
-                        dispatch(logar(email))
-                        history.push('/')
-                    }else{
-                        alert("não verificado")
-                    }
+                () => {
+                    firebase.auth().onAuthStateChanged(
+                        (user) => {
+                            user.sendEmailVerification()
+                        }
+                    )
+                    alert("Cadastrado com sucesso")
+                    history.push("/login")
                 }
             )
             .catch((error) => {
                 if (error.code === "auth/wrong-password") {
                     alert("Senha inválida");
                 }else if(error.code === "auth/invalid-email"){
-                    alert("Email inválido")
-                } else {    
+                    alert("Email inválido");
+                }else {
                     alert("Error Code:" + error.code);
                 }
             })
+        }
     }
-
     return(
         <div className="page">
             <div className="alert alert-primary" role="alert">
                 Informe um email e senha válidos
             </div>
-            <form className="form" onSubmit={handleLogin}>
+            <form className="form" onSubmit={handleRegister}>
                 <div className="form-group">    
                     <label>Email</label>
                     <input
@@ -67,13 +68,24 @@ function Login({ dados, dispatch }){
                         className="form-control"
                     />
                 </div>
-                <div className="buttonsCreate">
-                    <button type="submit" className="btn btn-primary">Login</button>
-                    <Link className="btn btn-primary" to="/register">Registrar</Link>
+                <div className="form-group">
+                    <label>Confimar a Senha</label>
+                    <input 
+                        type="password" 
+                        value={cSenha}
+                        onChange={(e) => {
+                            setCsenha(e.target.value)
+                        }}    
+                        className="form-control"
+                    />
                 </div>
-            </form>           
+                <div className="buttonsCreate">
+                    <button type="submit" className="btn btn-primary">Registrar</button>
+                    <Link className="btn btn-primary" to="/login">Login</Link>
+                </div>
+            </form>
         </div>
     )
 }
 
-export default connect(state => ({ dados: state }))(Login)
+export default Register
