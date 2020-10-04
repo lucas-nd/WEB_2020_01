@@ -1,24 +1,25 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 
-import FirebaseContext from '../utils/FirebaseContext'
+import { connect } from 'react-redux'
 
-const LoginPage = () => (
-    <FirebaseContext.Consumer>
-        {firebase => <Login firebase={firebase} />}
-    </FirebaseContext.Consumer>
-)
+import { logar } from '../store/actions'
 
-function Login(props){
+import firebase from '../utils/Firebase'
+
+function Login({ dados, dispatch }){
     const [ email, setEmail ] = useState('')
     const [ senha, setSenha ] = useState('')
 
     function handleLogin(e){
         e.preventDefault()
 
-        props.firebase
-            .getAuth()
+        firebase
+            .auth()
             .signInWithEmailAndPassword(email, senha)
+            .then(
+                dispatch(logar(email))
+            )
             .catch((error) => {
                 if (error.code === "auth/wrong-password") {
                     alert("Senha Errada");
@@ -60,8 +61,11 @@ function Login(props){
                     <Link className="btn btn-primary" to="/">To Home</Link>
                 </div>
             </form>
+
+            <h1>{console.log(dados)}</h1>
+            
         </div>
     )
 }
 
-export default LoginPage
+export default connect(state => ({ dados: state }))(Login)

@@ -1,16 +1,11 @@
 import React, { useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 
-import FirebaseContext from '../utils/FirebaseContext'
 import FirebaseService from '../services/FirebaseService'
+import firebase from '../utils/Firebase'
 
-const CreatePage = () => (
-    <FirebaseContext.Consumer>
-        {firebase => <Create firebase={firebase} />}
-    </FirebaseContext.Consumer>
-)
 
-function Create(props) {
+function Create() {
     const [ nome, setNome ] = useState('')
     const [ curso, setCurso ] = useState('')
     const [ capacidade, setCapacidade ] = useState('')
@@ -25,7 +20,7 @@ function Create(props) {
             curso,
             capacidade
         }
-        FirebaseService.create(props.firebase.getFirestore(),
+        FirebaseService.create(firebase.firestore(),
             (mensagem) => {
                 console.log(mensagem)
             },
@@ -80,4 +75,4 @@ function Create(props) {
     )
 }
 
-export default CreatePage
+export default Create

@@ -1,22 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 
-import FirebaseContext from '../utils/FirebaseContext'
 import FirebaseService from '../services/FirebaseService'
+import firebase from '../utils/Firebase'
 
-const ReadPage = () => (
-    <FirebaseContext.Consumer>
-        {firebase => <Read firebase={firebase} />}
-    </FirebaseContext.Consumer>
-)
-
-function Read(props){
+function Read(){
     const [ data, setData ] = useState([])
 
     const history = useHistory()
 
     async function loadDisciplinas(){
-        FirebaseService.list(props.firebase.getFirestore(),
+        FirebaseService.list(firebase.firestore(),
             (disciplinas) => {
                 setData(disciplinas)
             }
@@ -30,7 +24,7 @@ function Read(props){
     },[])
 
     function handleDeleteDisciplinas(e){
-        FirebaseService.delete(props.firebase.getFirestore(),
+        FirebaseService.delete(firebase.firestore(),
             (mensagem) => {
                 console.log("Deu bom")
             },
@@ -78,4 +72,4 @@ function Read(props){
     )
 } 
 
-export default ReadPage
+export default Read

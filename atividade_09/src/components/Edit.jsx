@@ -1,16 +1,10 @@
 import React, {useState} from 'react'
 import { useParams, Link, useHistory } from 'react-router-dom'
 
-import FirebaseContext from '../utils/FirebaseContext'
 import FirebaseService from '../services/FirebaseService'
+import firebase from '../utils/Firebase'
 
-const EditPage = () => (
-    <FirebaseContext.Consumer>
-        {firebase => <Edit firebase={firebase} />}
-    </FirebaseContext.Consumer>
-)
-
-function Edit(props){
+function Edit(){
     const [ nome, setNome ] = useState('')
     const [ curso, setCurso ] = useState('')
     const [ capacidade, setCapacidade ] = useState('')
@@ -23,7 +17,7 @@ function Edit(props){
         e.preventDefault()
 
         FirebaseService.edit(
-            props.firebase.getFirestore(),
+            firebase.firestore(),
             (mensagem) => {
                 console.log(mensagem)
             },
@@ -85,4 +79,4 @@ function Edit(props){
         </div>
     )
 }
-export default EditPage
+export default Edit
