@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React from 'react'
 import { useParams, Link, useHistory } from 'react-router-dom'
 
 import FirebaseService from '../services/FirebaseService'
@@ -6,88 +6,109 @@ import firebase from '../utils/Firebase'
 
 import { connect } from 'react-redux'
 
-import { useFormik } from 'formik'
+import { Formik, Field, Form, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 
 import Header from './Header'
 
-function Edit({ dados }){
+function Edit({ dados }) {
     const history = useHistory()
 
-    //if(dados.logado === false) history.push('/login')
+    if(dados.logado === false) history.push('/login')
 
     let { id } = useParams()
 
-    const formik = useFormik({
-        initialValues: {
-            disciplina: '',
-            curso: '',
-            capacidade: ''
-        },onSubmit: values => {
-            const ob = {
-                nome: values.disciplina,
-                curso: values.curso,
-                capacidade: values.capacidade
-            }
-
-            FirebaseService.edit(
-                firebase.firestore(),
-                (mensagem) => {
-                    console.log(mensagem)
-                },
-                id,
-                ob
-            )
-    
-            history.push('/')
-        }
-    })
-
-    return(
+    return (
         <div className="page">
             <Header />
             <div className="alert alert-primary" role="alert">
                 Reescreva todas as informações da disciplina
             </div>
-            <form className="form" onSubmit={formik.handleSubmit}>
-            <div className="form-group">    
-                    <label htmlFor="disciplina">Disciplina</label>
-                    <input
-                        id="disciplina"
-                        name="disciplina"
-                        type="text" 
-                        value={formik.values.disciplina}
-                        onChange={formik.handleChange}   
-                        className="form-control"
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="curso">Curso</label>
-                    <input
-                        id="curso"
-                        name="curso"
-                        type="text" 
-                        value={formik.values.curso}
-                        onChange={formik.handleChange}    
-                        className="form-control"
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="capacidade">Capacidade máxima</label>
-                    <input
-                        id="capacidade"
-                        name="capacidade"
-                        type="text" 
-                        value={formik.values.capacidade}
-                        onChange={formik.handleChange}    
-                        className="form-control"
-                    />  
-                </div>
-                <div className="buttonsEdit">
-                    <button type="submit" className="btn btn-primary">Editar</button>
-                    <Link className="btn btn-primary" to="/">To Home</Link>
-                </div>
-            </form>
+            <Formik
+                initialValues={{
+                    disciplina: '',
+                    curso: '',
+                    capacidade: ''
+                }}
+
+                validationSchema={
+                    Yup.object({
+                        disciplina: Yup.string()
+                            .max(15, 'Só são aceito no máximo 15 caracteres.')
+                            .required('O nome da disciplina é obrigatório.'),
+                        curso: Yup.string()
+                            .max(15, 'Só são aceito no máximo 15 caracteres.')
+                            .required('O nome do curso é obrigatório.'),
+                        capacidade: Yup.string()
+                            .max(15, 'Só são aceito no máximo 15 caracteres.')
+                            .required('A capacidade é obrigatório.'),
+                    })
+                }
+
+                onSubmit={values => {
+                    const ob = {
+                        nome: values.disciplina,
+                        curso: values.curso,
+                        capacidade: values.capacidade
+                    }
+        
+                    FirebaseService.edit(
+                        firebase.firestore(),
+                        (mensagem) => {
+                            console.log(mensagem)
+                        },
+                        id,
+                        ob
+                    )
+            
+                    history.push('/read')
+                }}
+            >
+                {(props) => (
+                    <Form className="form">
+                        <div className="form-group">
+                            <label htmlFor="disciplina">Disciplina</label>
+                            <Field
+                                id="disciplina"
+                                name="disciplina"
+                                type="text"
+                                className={
+                                    props.touched.disciplina ? props.errors.disciplina ? 'form-control is-invalid' : 'form-control is-valid' : 'form-control'
+                                }
+                            />
+                            <ErrorMessage name="disciplina" />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="curso">Curso</label>
+                            <Field
+                                id="curso"
+                                name="curso"
+                                type="text"
+                                className={
+                                    props.touched.curso ? props.errors.curso ? 'form-control is-invalid' : 'form-control is-valid' : 'form-control'
+                                }
+                            />
+                            <ErrorMessage name="curso" />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="capacidade">Capacidade</label>
+                            <Field
+                                id="capacidade"
+                                name="capacidade"
+                                type="text"
+                                className={
+                                    props.touched.capacidade ? props.errors.capacidade ? 'form-control is-invalid' : 'form-control is-valid' : 'form-control'
+                                }
+                            />
+                            <ErrorMessage name="capacidade" />
+                        </div>
+                        <div className="buttonsCreate">
+                            <button type="submit" className="btn btn-primary">Cadastrar</button>
+                            <Link className="btn btn-primary" to="/">To Home</Link>
+                        </div>
+                    </Form>
+                )}
+            </Formik>
         </div>
     )
 }

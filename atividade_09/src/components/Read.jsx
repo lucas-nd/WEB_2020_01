@@ -13,7 +13,7 @@ function Read({ dados }){
 
     const history = useHistory()
 
-    //if(dados.logado === false) history.push('/login')
+    if(dados.logado === false) history.push('/login')
 
     async function loadDisciplinas(){
         FirebaseService.list(firebase.firestore(),
