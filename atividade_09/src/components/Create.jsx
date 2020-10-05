@@ -28,6 +28,7 @@ function Create({ dados }) {
                 curso: values.curso,
                 capacidade: values.capacidade
             }
+            
             FirebaseService.create(firebase.firestore(),
                 (mensagem) => {
                     console.log(mensagem)

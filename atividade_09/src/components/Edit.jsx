@@ -6,37 +6,42 @@ import firebase from '../utils/Firebase'
 
 import { connect } from 'react-redux'
 
+import { useFormik } from 'formik'
+import * as Yup from 'yup'
+
 import Header from './Header'
 
 function Edit({ dados }){
-    const [ nome, setNome ] = useState('')
-    const [ curso, setCurso ] = useState('')
-    const [ capacidade, setCapacidade ] = useState('')
-
     const history = useHistory()
 
-    if(dados.logado === false) history.push('/login')
+    //if(dados.logado === false) history.push('/login')
 
     let { id } = useParams()
 
-    function handleEditDisciplina(e){
-        e.preventDefault()
-
-        FirebaseService.edit(
-            firebase.firestore(),
-            (mensagem) => {
-                console.log(mensagem)
-            },
-            id,
-            {
-                nome,
-                curso,
-                capacidade
+    const formik = useFormik({
+        initialValues: {
+            disciplina: '',
+            curso: '',
+            capacidade: ''
+        },onSubmit: values => {
+            const ob = {
+                nome: values.disciplina,
+                curso: values.curso,
+                capacidade: values.capacidade
             }
-        )
 
-        history.push('/')
-    }
+            FirebaseService.edit(
+                firebase.firestore(),
+                (mensagem) => {
+                    console.log(mensagem)
+                },
+                id,
+                ob
+            )
+    
+            history.push('/')
+        }
+    })
 
     return(
         <div className="page">
@@ -44,37 +49,37 @@ function Edit({ dados }){
             <div className="alert alert-primary" role="alert">
                 Reescreva todas as informações da disciplina
             </div>
-            <form className="form" onSubmit={handleEditDisciplina}>
-                <div className="form-group">    
-                    <label>Disciplina</label>
+            <form className="form" onSubmit={formik.handleSubmit}>
+            <div className="form-group">    
+                    <label htmlFor="disciplina">Disciplina</label>
                     <input
+                        id="disciplina"
+                        name="disciplina"
                         type="text" 
-                        value={nome}
-                        onChange={(e) => {
-                            setNome(e.target.value)
-                        }}   
+                        value={formik.values.disciplina}
+                        onChange={formik.handleChange}   
                         className="form-control"
                     />
                 </div>
                 <div className="form-group">
-                    <label>Curso</label>
-                    <input 
+                    <label htmlFor="curso">Curso</label>
+                    <input
+                        id="curso"
+                        name="curso"
                         type="text" 
-                        value={curso}
-                        onChange={(e) => {
-                            setCurso(e.target.value)
-                        }}    
+                        value={formik.values.curso}
+                        onChange={formik.handleChange}    
                         className="form-control"
                     />
                 </div>
                 <div className="form-group">
-                    <label>Capacidade máxima</label>
-                    <input 
+                    <label htmlFor="capacidade">Capacidade máxima</label>
+                    <input
+                        id="capacidade"
+                        name="capacidade"
                         type="text" 
-                        value={capacidade}
-                        onChange={(e) => {
-                            setCapacidade(e.target.value)
-                        }}    
+                        value={formik.values.capacidade}
+                        onChange={formik.handleChange}    
                         className="form-control"
                     />  
                 </div>
