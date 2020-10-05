@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Link, useHistory } from 'react-router-dom'
 
 import FirebaseService from '../services/FirebaseService'
@@ -6,69 +6,83 @@ import firebase from '../utils/Firebase'
 
 import { connect } from 'react-redux'
 
+import { useFormik } from 'formik'
+import * as Yup from 'yup'
+
 import Header from './Header'
 
 function Create({ dados }) {
-    const [ nome, setNome ] = useState('')
-    const [ curso, setCurso ] = useState('')
-    const [ capacidade, setCapacidade ] = useState('')
-
     const history = useHistory()
 
-    if(dados.logado === false) history.push('/login')
+    //if(dados.logado === false) history.push('/login')
 
-    function handleCreate(e){
-        e.preventDefault()
-
-        const disciplina = {
-            nome,
-            curso,
-            capacidade
-        }
-        FirebaseService.create(firebase.firestore(),
-            (mensagem) => {
-                console.log(mensagem)
-            },
-            disciplina
-        )
-
-        history.push('/')
-    }
+    const formik = useFormik({
+        initialValues: {
+            disciplina: '',
+            curso: '',
+            capacidade: ''
+        },
+        onSubmit: values => {
+            const ob = {
+                nome: values.disciplina,
+                curso: values.curso,
+                capacidade: values.capacidade
+            }
+            FirebaseService.create(firebase.firestore(),
+                (mensagem) => {
+                    console.log(mensagem)
+                },
+                ob
+            )
+    
+            history.push('/')
+        },validationSchema: Yup.object({
+            disciplina: Yup.string()
+                .max(25, 'Use 25 caracteres ou menos')
+                .required('Obrigatório'),
+            curso: Yup.string()
+                .max(25, 'Use 25 caracteres ou menos')
+                .required('Obrigatório'),
+            capacidade: Yup.string()
+                .max(25, 'Use 3 caracteres ou menos')
+                .required('Obrigatório'),
+        })
+    })
 
     return (
         <div className="page">
             <Header />
-            <form className="form" onSubmit={handleCreate}>
+            <form className="form" onSubmit={formik.handleSubmit}>
                 <div className="form-group">    
-                    <label>Disciplina</label>
+                    <label htmlFor="disciplina">Disciplina</label>
                     <input
+                        id="disciplina"
+                        name="disciplina"
                         type="text" 
-                        value={nome}
-                        onChange={(e) => {
-                            setNome(e.target.value)
-                        }}   
+                        value={formik.values.disciplina}
+                        onChange={formik.handleChange}   
                         className="form-control"
                     />
                 </div>
                 <div className="form-group">
-                    <label>Curso</label>
-                    <input 
+                    <label htmlFor="curso">Curso</label>
+                    <input
+                        id="curso"
+                        name="curso"
                         type="text" 
-                        value={curso}
-                        onChange={(e) => {
-                            setCurso(e.target.value)
-                        }}    
+                        value={formik.values.curso}
+                        onChange={formik.handleChange}    
                         className="form-control"
                     />
                 </div>
                 <div className="form-group">
-                    <label>Capacidade máxima</label>
-                    <input 
+                    <label htmlFor="capacidade">Capacidade máxima</label>
+                    <input
+                        id="capacidade"
+                        name="capacidade"
                         type="text" 
-                        value={capacidade}
-                        onChange={(e) => {
-                            setCapacidade(e.target.value)
-                        }}    
+                        value={formik.values.capacidade}
+                        onChange={formik.handleChange}    
                         className="form-control"
                     />  
                 </div>
